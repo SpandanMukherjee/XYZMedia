@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            * {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            body {
+                padding: 0;
+                margin: 0;
+                background-color: rgb(3, 9, 41);
+            }
+
+            nav {
+                justify-content: space-between;
+            }
+
+            .navleft, .navright, nav {
+                background-color: black;
+                display: flex;
+            }
+
+            .navleft a, .navright a {
+                text-decoration: none;
+                font-size: 22px;
+                padding: 10px 18px;
+                color: antiquewhite;
+                transition: all 0.3s;
+            }
+
+            .navleft a:hover, .navright a:hover {
+                background-color: rgb(68, 45, 45);
+                color: aquamarine;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <div class="navleft">
+                <a href="#">insertlogohere</a>
+            </div>
+            <div class="navright">
+                <a href="#">Dashboard</a>
+                <a href="#">Assignments</a>
+                <a href="#">Calendar</a>
+                <a href="#">Account</a>
+            </div>
+        </nav>
+    </body>
+</html>

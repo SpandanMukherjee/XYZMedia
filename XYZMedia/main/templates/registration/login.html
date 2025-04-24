@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+
+        * {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: rgb(3, 9, 41);
+        }
+
+        .login-container {
+            padding: 50px;
+            margin: 5%;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 5px 10px black;
+        }
+
+        label, h1 {
+            color: #FFF5C9;
+        }
+
+        input[type="text"], input[type="password"] {
+            font-size: 18px;
+            padding: 10px;
+            border: 2px solid rgb(243, 199, 112);
+            outline: none;
+            width: 576px;
+            background-color: rgb(32, 31, 37);
+            color: #FFF5C9;
+        }
+
+        ::placeholder {
+            color: #8B8676;
+        }
+
+        .login-btn {
+            font-size: 18px;
+            padding: 15px;
+            width: 600px;
+            cursor: pointer;
+            border: none;
+            background-color: rgb(243, 199, 112);
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        .login-btn:hover {
+            background-color: rgb(169, 115, 68);
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        .signup {
+            color: #FFF5C9;
+        }
+
+        .signup a {
+            color: #FFF5C9;
+            transition: color 0.3s;
+        }
+
+        .signup a:hover {
+            color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>Login</h1>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{form.username}}
+            {{form.password}}
+            
+            <button class="login-btn">Login</button>
+        </form>
+
+        <p class="signup">A freelancer? You might want to <a href="/accounts/register">Register</a></p>
+
+    </div>
+
+</body>
+</html>

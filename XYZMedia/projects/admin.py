@@ -1,7 +1,6 @@
 from django.contrib import admin
-from projects.models import Project, Assignment, FreelancerTaskSelection
+from projects.models import Project, Assignment
 
 admin.site.register(Project)
 admin.site.register(Assignment)
-admin.site.register(FreelancerTaskSelection)
 # Register your models here.
