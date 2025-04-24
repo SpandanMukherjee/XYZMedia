@@ -1,1 +1,19 @@
 {% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block head %}
+<style>
+    .mainbody {
+        color: antiquewhite;
+        margin: 0px 2%;
+        margin-top: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block mainbody %}
+
+<h1>Welcome, {{user.username}}</h1>
+
+{% endblock %}

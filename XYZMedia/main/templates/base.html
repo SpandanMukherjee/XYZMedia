@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>{% block title %}Base{% endblock %}</title>
+
         <style>
             * {
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -34,6 +39,9 @@
                 color: aquamarine;
             }
         </style>
+
+        {% block head %}
+        {% endblock %}
     </head>
     <body>
         <nav>
@@ -47,5 +55,14 @@
                 <a href="#">Account</a>
             </div>
         </nav>
+
+        <div class="mainbody">
+
+            {% block mainbody %}
+
+            {% endblock %}
+
+        </div>
+
     </body>
 </html>
