@@ -1,6 +1,53 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
 {% block title %} Admin Dashboard {% endblock %}
+
+{% block head %}
+<style>
+    .mainbody {
+        padding: 10px 3%;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #DBAE58;
+        text-align: left;
+        padding: 8px;
+        color: antiquewhite;
+    }
+
+    th {
+        color: rgb(255, 210, 152);
+    }
+
+    h1, h2, h3, ul {
+        color: antiquewhite;
+    }
+
+    .new_project, .resume, .approve {
+        padding: 5px 8px;
+        text-decoration: none;
+        background-color: black;
+        color: #DBAE58;
+        text-align: center;
+        transition: all 0.3s;
+        outline: 2px solid green;
+        font-size: 15px;
+        border-radius: 5rem;
+    }
+
+    .new_project:hover, .resume:hover, .approve:hover {
+        background-color: #AC3E31;
+        color: #ffd891;
+        cursor: pointer;
+    }
+
+</style>
+{% endblock %}
 
 {% block mainbody %}
 <h1>Admin Dashboard</h1>
@@ -54,9 +101,9 @@
         {% endfor %}
     </tbody>
 </table>
-
+<br>
 <!-- Button to Create a New Project -->
-<a href="{% url 'projects:create_project' %}" class="btn">Create New Project</a>
+<a href="{% url 'projects:create_project' %}" class="new_project">Create New Project</a>
 
 <!-- Section 2: Freelancer Approval -->
 <h2>Freelancers Awaiting Approval</h2>
@@ -76,7 +123,7 @@
             <td>{{ profile.user.email }}</td>
             <td>
                 {% if profile.resume %}
-                    <a href="{{ profile.resume.url }}" target="_blank">View Resume</a>
+                    <a href="{{ profile.resume.url }}" target="_blank" class="resume">View Resume</a>
                 {% else %}
                     No Resume Uploaded
                 {% endif %}
@@ -84,7 +131,7 @@
             <td>
                 <form method="POST" action="{% url 'users:approve_freelancer' profile.id %}">
                     {% csrf_token %}
-                    <button type="submit">Approve</button>
+                    <button type="submit" class="approve">Approve</button>
                 </form>
             </td>
         </tr>
