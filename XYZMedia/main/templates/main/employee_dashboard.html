@@ -1,65 +1,27 @@
-{% extends 'base.html' %}
 
-{% block title %}Employee Dashboard{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Employee Dashboard</h2>
 
-{% block mainbody %}
-    <h1>Employee Dashboard</h1>
+    {% if task_forms %}
+        {% for task, form in task_forms %}
+            <div class="card my-3 p-3">
+                <h4>{{ task.title }}</h4>
+                <p><strong>Topic:</strong> {{ task.topic }}</p>
+                <p><strong>Due:</strong> {{ task.due_date }}</p>
 
-    <h2>Assigned Tasks</h2>
-
-    {% if tasks %}
-        <table border="1" cellpadding="10">
-            <thead>
-                <tr>
-                    <th>Project Title</th>
-                    <th>Status</th>
-                    <th>Assigned Writer</th>
-                    <th>Assigned Producer</th>
-                    <th>Assigned Compiler</th>
-                    <th>Due Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                    <tr>
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.status }}</td>
-
-                        <td>
-                            {% if task.assigned_writer %}
-                                {{ task.assigned_writer.user.username }}
-                            {% else %}
-                                Not Assigned
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {% if task.assigned_producer %}
-                                {{ task.assigned_producer.user.username }}
-                            {% else %}
-                                Not Assigned
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {% if task.assigned_compiler %}
-                                {{ task.assigned_compiler.user.username }}
-                            {% else %}
-                                Not Assigned
-                            {% endif %}
-                        </td>
-
-                        <td>{{ task.due_date }}</td>
-                        <td>
-                            <a href="{% url 'projects:task_detail' task.id %}">View Task</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="hidden" name="task_id" value="{{ task.id }}">
+                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                </form>
+            </div>
+        {% endfor %}
     {% else %}
-        <p>You have no tasks assigned at the moment.</p>
+        <p>No tasks assigned right now. You’re free!</p>
     {% endif %}
-
+</div>
 {% endblock %}
+<!-- 
+ -->
