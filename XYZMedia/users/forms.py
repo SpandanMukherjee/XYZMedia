@@ -5,7 +5,7 @@ from users.models import UserProfile
 class SignupForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, required=True)
     password2 = forms.CharField(widget=forms.PasswordInput, required=True)
-    role = forms.ChoiceField(choices=UserProfile.ROLE_CHOICES, required=True)
+    role = forms.ChoiceField(choices=UserProfile.ROLE_CHOICES[:2], required=True)
     resume = forms.FileField(required=True)
 
     class Meta:
@@ -26,7 +26,7 @@ class SignupForm(forms.ModelForm):
 
         if commit:
             user.save()
-            
+
             UserProfile.objects.create(
                 user=user,
                 user_type='freelancer',
