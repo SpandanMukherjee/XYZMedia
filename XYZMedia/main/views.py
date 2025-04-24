@@ -3,10 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from users.models import UserProfile
 from projects.models import Project
-from users.models import UserProfile
-
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def redirect_to_dashboard(request):
@@ -37,7 +33,7 @@ def admin_dashboard(request):
 def employee_dashboard(request):
     profile = request.user.userprofile
     tasks = []
-
+    
     if profile.role == 'writer':
         tasks = Project.objects.filter(assigned_writer=profile)
     elif profile.role == 'producer':
