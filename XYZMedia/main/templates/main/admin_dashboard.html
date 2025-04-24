@@ -28,19 +28,21 @@
     .new_project, .resume, .approve {
         padding: 5px 8px;
         text-decoration: none;
-        background-color: black;
-        color: #DBAE58;
+        background-color: rgb(243, 199, 112);
+        color: black;
         text-align: center;
         transition: all 0.3s;
-        outline: 2px solid green;
         font-size: 15px;
-        border-radius: 5rem;
+        border: none;
+        cursor: pointer;
     }
 
     .new_project:hover, .resume:hover, .approve:hover {
-        background-color: #AC3E31;
-        color: #ffd891;
-        cursor: pointer;
+        background-color: rgb(169, 115, 68);
+    }
+
+    .approve:active {
+        transform: scale(0.98);
     }
 
 </style>
