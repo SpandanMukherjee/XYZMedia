@@ -73,7 +73,7 @@
 
             <td>
                 {% if project.assigned_writer %}
-                    {{ project.assigned_writer.username }}
+                    {{ project.assigned_writer.user.username }}
                 {% else %}
                     Not Assigned
                 {% endif %}
@@ -81,7 +81,7 @@
 
             <td>
                 {% if project.assigned_producer %}
-                    {{ project.assigned_producer.username }}
+                    {{ project.assigned_producer.user.username }}
                 {% else %}
                     Not Assigned
                 {% endif %}
@@ -89,7 +89,7 @@
 
             <td>
                 {% if project.assigned_compiler %}
-                    {{ project.assigned_compiler.username }}
+                    {{ project.assigned_compiler.user.username }}
                 {% else %}
                     Not Assigned
                 {% endif %}
