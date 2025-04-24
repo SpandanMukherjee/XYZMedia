@@ -42,9 +42,7 @@ class Project(models.Model):
             
             if days_left <= 2:
                 self.priority = 'high'
-            else:
-                self.priority = 'low'
-
+                
         super().save(*args, **kwargs)
 
     def __str__(self):
