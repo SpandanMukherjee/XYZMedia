@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+<h1>Create New Project</h1>
+
+{% if form.errors %}
+    <p style="color: red;">There was an error with your submission. Please check the form fields.</p>
+    <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Display form fields as paragraphs -->
+    <button type="submit">Create Project</button>
+</form>

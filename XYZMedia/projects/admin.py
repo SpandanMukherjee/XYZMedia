@@ -1,6 +1,5 @@
 from django.contrib import admin
-from projects.models import Project, Assignment
+from projects.models import Project
 
 admin.site.register(Project)
-admin.site.register(Assignment)
 # Register your models here.

@@ -1,37 +1,50 @@
 from django.db import models
-from django.contrib.auth.models import User
+from users.models import UserProfile
+from datetime import date
 
 class Project(models.Model):
 
     PRIORITY_CHOICES = [
-        ('High', 'High'), 
-        ('Low', 'Low'), 
+        ('high', 'High'),
+        ('low', 'Low'),        
     ]
 
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    topic = models.CharField(max_length=100)
+    STATUS_CHOICES = [
+        ('unassigned', 'Unassigned'),
+        ('writing_in_progress', 'Writing in Progress'),
+        ('writing_complete', 'Writing Complete'),
+        ('producing_in_progress', 'Producing in Progress'),
+        ('producing_complete', 'Producing Complete'),
+        ('compiling_in_progress', 'Compiling in Progress'),
+        ('ready', 'Ready'),
+        ('done', 'Done'),
+    ]
+
+    topic = models.CharField(max_length=255)
     due_date = models.DateField()
-    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='Low')
-    auto_assign = models.BooleanField(default=False) 
-    created_at = models.DateTimeField(auto_now_add=True)
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='low')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='unassigned')
+
+    assigned_writer = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, related_name='assigned_writer', null=True, blank=True)
+    assigned_producer = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, related_name='assigned_producer', null=True, blank=True)
+    assigned_compiler = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, related_name='assigned_compiler', null=True, blank=True)
+    revision_reason = models.TextField(null=True, blank=True)
+
+    script = models.FileField(upload_to='scripts/', null=True, blank=True)
+    video = models.FileField(upload_to='videos/', null=True, blank=True)
+    thumbnail = models.ImageField(upload_to='thumbnails/', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        
+        if self.priority == 'low':
+            days_left = (self.due_date - date.today()).days
+            
+            if days_left <= 2:
+                self.priority = 'high'
+            else:
+                self.priority = 'low'
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
-
-class Assignment(models.Model):
-
-    class Status(models.TextChoices):
-        UNASSIGNED = 'Unassigned', 'Unassigned'
-        ASSIGNED = 'Assigned', 'Assigned'
-        IN_PROGRESS = 'In Progress', 'In Progress'
-        COMPLETED = 'Completed', 'Completed'
-        FREELANCER_SELECTED = 'Freelancer Selected', 'Freelancer Selected'
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    project = models.OneToOneField(Project, on_delete=models.CASCADE)
-    assigned_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=50, choices=Status.choices, default=Status.UNASSIGNED)
-
-    def __str__(self):
-        return f"{self.project.title} - {self.user.username} ({self.status})"
+        return self.topic

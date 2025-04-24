@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %} Admin Dashboard {% endblock %}
+
+{% block mainbody %}
+<h1>Admin Dashboard</h1>
+
+<h2>All Projects</h2>
+
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>Project Title</th>
+            <th>Status</th>
+            <th>Assigned Writer</th>
+            <th>Assigned Producer</th>
+            <th>Assigned Compiler</th>
+            <th>Due Date</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% for project in projects %}
+        <tr>
+            <td>{{ project.title }}</td>
+            <td>{{ project.status }}</td>
+
+            <td>
+                {% if project.assigned_writer %}
+                    {{ project.assigned_writer.username }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>
+
+            <td>
+                {% if project.assigned_producer %}
+                    {{ project.assigned_producer.username }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>
+
+            <td>
+                {% if project.assigned_compiler %}
+                    {{ project.assigned_compiler.username }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>
+            
+            <td>{{ project.due_date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Button to Create a New Project -->
+<a href="{% url 'projects:create_project' %}" class="btn">Create New Project</a>
+
+<!-- Section 2: Freelancer Approval -->
+<h2>Freelancers Awaiting Approval</h2>
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Resume</th>
+            <th>Approve</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for profile in freelancers %}
+        <tr>
+            <td>{{ profile.user.username }}</td>
+            <td>{{ profile.user.email }}</td>
+            <td>
+                {% if profile.resume %}
+                    <a href="{{ profile.resume.url }}" target="_blank">View Resume</a>
+                {% else %}
+                    No Resume Uploaded
+                {% endif %}
+            </td>
+            <td>
+                <form method="POST" action="{% url 'users:approve_freelancer' profile.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Approve</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Section 3: List of All Employees and Freelancers -->
+<h2>All Employees and Freelancers</h2>
+<h3>Employees</h3>
+<ul>
+    {% for user in employees %}
+    <li>{{ user.user.username }} ({{ user.role }})</li>
+    {% endfor %}
+</ul>
+
+<h3>Freelancers Awaiting Approval</h3>
+<ul>
+    {% for user in freelancers %}
+    <li>{{ user.user.username }} ({{ user.role }}) - {% if user.is_approved %}Approved{% else %}Pending Approval{% endif %}</li>
+    {% endfor %}
+</ul>
+
+<h3>Approved Freelancers</h3>
+<ul>
+    {% for user in freelancers_list %}
+    <li>{{ user.user.username }} ({{ user.role }})</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
