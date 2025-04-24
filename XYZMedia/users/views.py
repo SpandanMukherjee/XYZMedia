@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignupForm
+from users.forms import SignupForm
 from django.contrib import messages
 from users.models import UserProfile
+from main.views import admin_dashboard, employee_dashboard, freelancer_dashboard
 
 def register_user(request):
     
@@ -21,4 +22,4 @@ def approve_freelancer(request, id):
     profile = get_object_or_404(UserProfile, id=id)
     profile.is_approved = True
     profile.save()
-    return redirect('main:admin_dashboard')
+    return admin_dashboard(request)

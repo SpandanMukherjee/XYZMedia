@@ -7,11 +7,11 @@ from projects.models import Project
 @login_required
 def redirect_to_dashboard(request):
     if request.user.userprofile.user_type == 'admin':
-        return redirect('main:admin_dashboard')
+        return admin_dashboard(request)
     elif request.user.userprofile.user_type == 'employee':
-        return redirect('main:employee_dashboard')
+        return employee_dashboard(request)
     elif request.user.userprofile.user_type == 'freelancer':
-        return redirect('main:freelancer_dashboard')
+        return freelancer_dashboard(request)
     else:
         return redirect('/')
 
@@ -48,7 +48,7 @@ def freelancer_dashboard(request):
     tasks = []
 
     if not profile.is_approved:
-        return redirect('main:dashboard')
+        return render(request, 'main/freelancer_pending_dashboard.html')
 
     if profile.role == 'writer':
         tasks = Project.objects.filter(assigned_writer=profile)
