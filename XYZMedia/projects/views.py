@@ -17,7 +17,7 @@ def create_project(request):
 
     if request.method == 'POST' and form.is_valid():
         form.save()
-        return redirect('main:admin_dashboard')
+        return redirect('/')
 
     return render(request, 'projects/create_project.html', {'form': form})
 

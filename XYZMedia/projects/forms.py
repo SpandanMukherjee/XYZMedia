@@ -12,7 +12,7 @@ class ProjectForm(forms.ModelForm):
     
     class Meta:
         model = Project
-        fields = ['topic', 'due_date', 'priority']
+        fields = ['title', 'topic', 'due_date', 'priority']
 
     def clean_due_date(self):
         due_date = self.cleaned_data.get('due_date')
