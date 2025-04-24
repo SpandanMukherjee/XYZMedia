@@ -127,6 +127,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# settings.py
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+LOGIN_URL = '/accounts/auth/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

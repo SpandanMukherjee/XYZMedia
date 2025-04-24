@@ -48,3 +48,7 @@ class UserProfile(models.Model):
                 raise ValidationError("Employees and freelancers must have a role.")
         else:
             raise ValidationError("Invalid user type.")
+
+    def approve(self):
+        self.is_approved = True
+        self.save()

@@ -79,6 +79,19 @@
 
 <body>
 
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+                <p style="color: lightgreen;">{{ message }}</p>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
     <div class="login-container">
 
         <h1>Login</h1>
@@ -87,10 +100,17 @@
 
             {% csrf_token %}
 
-            {{form.username}}
-            {{form.password}}
+            <div>
+                <label for="id_username">Username</label>
+                {{ form.username }}
+            </div>
+
+            <div>
+                <label for="id_password">Password</label>
+                {{ form.password }}
+            </div>
             
-            <button class="login-btn">Login</button>
+            <button class="login-btn" type="Submit">Login</button>
         </form>
 
         <p class="signup">A freelancer? You might want to <a href="/accounts/register">Register</a></p>

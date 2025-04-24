@@ -19,6 +19,8 @@ class SignupForm(forms.ModelForm):
 
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords do not match.")
+        
+        return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
