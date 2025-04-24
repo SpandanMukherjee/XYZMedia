@@ -26,7 +26,7 @@ class SignupForm(forms.ModelForm):
 
         if commit:
             user.save()
-            
+
             UserProfile.objects.create(
                 user=user,
                 user_type='freelancer',
