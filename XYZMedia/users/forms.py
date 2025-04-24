@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from users.models import UserProfile
 
 class SignupForm(forms.ModelForm):
-    password1 = forms.CharField(widget=forms.PasswordInput, required=True)
-    password2 = forms.CharField(widget=forms.PasswordInput, required=True)
-    role = forms.ChoiceField(choices=UserProfile.ROLE_CHOICES, required=True)
+    password1 = forms.CharField(widget=forms.PasswordInput, required=True, label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput, required=True, label="Password Confirmation")
+    role = forms.ChoiceField(choices=UserProfile.ROLE_CHOICES[:2], required=True)
     resume = forms.FileField(required=True)
 
     class Meta:
