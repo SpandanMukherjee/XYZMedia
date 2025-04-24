@@ -20,6 +20,7 @@ class Project(models.Model):
         ('done', 'Done'),
     ]
 
+    title = models.CharField(max_length=255, default='Untitled Project')
     topic = models.CharField(max_length=255)
     due_date = models.DateField()
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='low')

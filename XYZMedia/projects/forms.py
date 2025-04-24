@@ -5,6 +5,10 @@ from projects.models import Project
 from datetime import date
 
 class ProjectForm(forms.ModelForm):
+    due_date = forms.DateField(
+        input_formats=['%Y-%m-%d'],  # or any format you expect
+        widget=forms.DateInput(attrs={'type': 'date'})  # For modern browsers
+    )
     
     class Meta:
         model = Project
