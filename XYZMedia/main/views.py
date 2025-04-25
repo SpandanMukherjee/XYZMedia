@@ -151,21 +151,17 @@ def freelancer_dashboard(request):
                 task.assigned_producer = profile
                 task.status = 'producing_in_progress'
                 task.save()
-            elif profile.role == 'compiler' and task.assigned_compiler is None and task.status == 'producing_complete':
-                task.assigned_compiler = profile
-                task.status = 'compiling_in_progress'
-                task.save()
 
         return redirect('main:freelancer_dashboard')
 
     task = Project.objects.filter(**{f'assigned_{profile.role}': profile}).first()
     available_tasks = []
+    
     if not task:
         filters = {f'assigned_{profile.role}__isnull': True, 'priority': 'low'}
         if profile.role == 'producer':
             filters['status'] = 'writing_complete'
-        elif profile.role == 'compiler':
-            filters['status'] = 'producing_complete'
+        
         available_tasks = Project.objects.filter(**filters)
 
     task_forms = []
@@ -174,9 +170,6 @@ def freelancer_dashboard(request):
             form = ScriptUploadForm(instance=task)
         elif profile.role == 'producer':
             form = VideoUploadForm(instance=task)
-        else:
-            form = ThumbnailUploadForm(instance=task)
-        task_forms.append((task, form))
 
     return render(request, 'main/freelancer_dashboard.html', {
         'task': task,
