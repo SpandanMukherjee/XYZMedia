@@ -113,7 +113,7 @@
             <th>Username</th>
             <th>Email</th>
             <th>Resume</th>
-            <th>Approve</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -129,9 +129,14 @@
                 {% endif %}
             </td>
             <td>
-                <form method="POST" action="{% url 'users:approve_freelancer' profile.id %}">
+                <form method="POST" action="{% url 'users:approve_freelancer' profile.id %}" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="approve">Approve</button>
+                </form>
+            
+                <form method="POST" action="{% url 'users:reject_freelancer' profile.user.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="approve" style="background-color: rgb(200, 80, 80);">Reject</button>
                 </form>
             </td>
         </tr>
