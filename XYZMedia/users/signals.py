@@ -10,5 +10,7 @@ def create_profile_for_superuser(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance, user_type='admin')
 
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.userprofile.save()
+def save_user_profile(sender, instance, created, **kwargs):
+    
+    if created and hasattr(instance, 'userprofile'):
+        instance.userprofile.save()

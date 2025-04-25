@@ -29,15 +29,19 @@ class SignupForm(forms.ModelForm):
         if commit:
             user.save()
 
-            UserProfile.objects.create(
-                user=user,
-                user_type='freelancer',
-                role=self.cleaned_data['role'],
-                resume=self.cleaned_data['resume'],
-                is_approved=False
-            )
+            resume = self.cleaned_data.get('resume')
+            role = self.cleaned_data.get('role')
 
-        return user
+            if resume and role:
+                UserProfile.objects.create(
+                    user=user,
+                    user_type='freelancer',
+                    role=role,
+                    resume=resume,
+                    is_approved=False
+                )
+            else:
+                raise forms.ValidationError("Missing resume or role for user profile.")
 
 class EmployeeCreationForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, required=True, label="Password")
