@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import logout
 from django.db import transaction
 from users.models import UserProfile
@@ -18,6 +18,7 @@ def redirect_to_dashboard(request):
     return redirect('/')
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def admin_dashboard(request):
     projects = Project.objects.exclude(status='done')
     freelancers = UserProfile.objects.filter(user_type='freelancer', is_approved=False)
@@ -31,6 +32,7 @@ def admin_dashboard(request):
     })
 
 @login_required
+@user_passes_test(lambda u: hasattr(u, 'userprofile') and u.userprofile.user_type == 'employee')
 def employee_dashboard(request):
     profile = request.user.userprofile
 
@@ -131,6 +133,7 @@ def employee_dashboard(request):
     })
 
 @login_required
+@user_passes_test(lambda u: hasattr(u, 'userprofile') and u.userprofile.user_type == 'freelancer')
 def freelancer_dashboard(request):
     profile = request.user.userprofile
     if not profile.is_approved:
