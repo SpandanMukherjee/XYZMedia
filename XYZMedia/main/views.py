@@ -200,6 +200,11 @@ def freelancer_dashboard(request):
     })
 
 @login_required
+def archives(request):
+    projects = Project.objects.filter(status='done')
+    return render(request, 'main/archives.html', {'projects': projects})
+
+@login_required
 def logout_user(request):
     logout(request)
     return redirect('/')

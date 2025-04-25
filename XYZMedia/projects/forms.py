@@ -23,10 +23,11 @@ class ProjectForm(forms.ModelForm):
         return due_date
 
 class ScriptUploadForm(forms.ModelForm):
+    script = forms.FileField(required=True)
 
     class Meta:
         model = Project
-        fields = ('script',)
+        fields = ['script']
 
     def save(self, commit=True):
         project = super().save(commit=False)
@@ -38,6 +39,7 @@ class ScriptUploadForm(forms.ModelForm):
         return project
 
 class VideoUploadForm(forms.ModelForm):
+    video = forms.FileField(required=True)
 
     class Meta:
         model = Project
@@ -54,7 +56,8 @@ class VideoUploadForm(forms.ModelForm):
 
 
 class ThumbnailUploadForm(forms.ModelForm):
-
+    thumbnail = forms.ImageField(required=True)
+    
     SEND_BACK_CHOICES = [
         ('done', 'Done'),
         ('unassigned', 'Send back to Writers (unassigned)'),
@@ -88,6 +91,7 @@ class ThumbnailUploadForm(forms.ModelForm):
         else:
             project.status = 'done'
             project.revision_reason = ''
+            project.completion_date = date.today()
 
         if commit:
             project.save()
