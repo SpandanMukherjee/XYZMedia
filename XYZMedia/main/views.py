@@ -185,6 +185,7 @@ def freelancer_dashboard(request):
         available_tasks = Project.objects.filter(**filters)
 
     task_forms = []
+
     if task:
         if profile.role == 'writer':
             form = ScriptUploadForm(instance=task)
@@ -200,7 +201,7 @@ def freelancer_dashboard(request):
     })
 
 @login_required
-def archives(request):
+def archives(request):  
     projects = Project.objects.filter(status='done')
     return render(request, 'main/archives.html', {'projects': projects})
 

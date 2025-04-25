@@ -9,7 +9,7 @@
             <li>
                 <h2>{{ project.title }}</h2>
                 <p>{{ project.topic }}</p>
-                <a href="{{ project.video.url }}" target="_blank" class="video">{{ project.thumbnail }}</a>
+                <a href="{{ project.video.url }}" target="_blank" class="video"><img src="{{ project.thumbnail.url }}" alt="No Thumbnail"></a>
                 <p><strong>Completion Date:</strong> {{ project.completion_date }}</p>
             </li>
         {% endfor %}
