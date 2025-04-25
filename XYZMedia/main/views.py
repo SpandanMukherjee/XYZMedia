@@ -72,19 +72,16 @@ def employee_dashboard(request):
                 else:
                     project.assigned_writer = None
                     project.assigned_producer = None
-
+                    
                 project.save()
 
         return redirect('main:employee_dashboard')
     
     task = None
-
     if profile.role == 'writer':
         task = Project.objects.filter(assigned_writer=profile, status='writing_in_progress').first()
-
         if not task:
             task = Project.objects.filter(status='unassigned', priority='high', assigned_writer__isnull=True).first()
-
             if task:
                 task.assigned_writer = profile
                 task.status = 'writing_in_progress'
@@ -92,10 +89,8 @@ def employee_dashboard(request):
 
     elif profile.role == 'producer':
         task = Project.objects.filter(assigned_producer=profile, status='producing_in_progress').first()
-
         if not task:
             task = Project.objects.filter(status='writing_complete', priority='high', assigned_producer__isnull=True).first()
-
             if task:
                 task.assigned_producer = profile
                 task.status = 'producing_in_progress'
@@ -103,26 +98,21 @@ def employee_dashboard(request):
 
     else:  # compiler
         task = Project.objects.filter(assigned_compiler=profile, status='compiling_in_progress').first()
-
         if not task:
             task = Project.objects.filter(status='producing_complete', priority='high', assigned_compiler__isnull=True).first()
-
             if task:
                 task.assigned_compiler = profile
                 task.status = 'compiling_in_progress'
                 task.save()
 
     task_forms = []
-
     if task:
-
         if profile.role == 'writer':
             form = ScriptUploadForm(instance=task)
         elif profile.role == 'producer':
             form = VideoUploadForm(instance=task)
         else:
             form = ThumbnailUploadForm(instance=task)
-
         task_forms.append((task, form))
 
     return render(request, 'main/employee_dashboard.html', {
@@ -132,7 +122,6 @@ def employee_dashboard(request):
 @login_required
 def freelancer_dashboard(request):
     profile = request.user.userprofile
-
     if not profile.is_approved:
         return render(request, 'main/freelancer_pending_dashboard.html')
 
@@ -141,10 +130,8 @@ def freelancer_dashboard(request):
 
         # Upload case
         if request.FILES:
-
             if profile.role == 'writer' and 'script' in request.FILES:
                 form = ScriptUploadForm(request.POST, request.FILES, instance=task)
-
                 if form.is_valid():
                     form.save()
                     task.status = 'writing_complete'
@@ -153,7 +140,6 @@ def freelancer_dashboard(request):
 
             elif profile.role == 'producer' and 'video' in request.FILES:
                 form = VideoUploadForm(request.POST, request.FILES, instance=task)
-
                 if form.is_valid():
                     form.save()
                     task.status = 'producing_complete'
@@ -162,12 +148,10 @@ def freelancer_dashboard(request):
 
         # Claim case
         else:
-
             if profile.role == 'writer' and task.assigned_writer is None:
                 task.assigned_writer = profile
                 task.status = 'writing_in_progress'
                 task.save()
-
             elif profile.role == 'producer' and task.assigned_producer is None and task.status == 'writing_complete':
                 task.assigned_producer = profile
                 task.status = 'producing_in_progress'
@@ -180,21 +164,17 @@ def freelancer_dashboard(request):
     
     if not task:
         filters = {f'assigned_{profile.role}__isnull': True, 'priority': 'low'}
-
         if profile.role == 'producer':
             filters['status'] = 'writing_complete'
         
         available_tasks = Project.objects.filter(**filters)
 
     task_forms = []
-
     if task:
         if profile.role == 'writer':
             form = ScriptUploadForm(instance=task)
         elif profile.role == 'producer':
             form = VideoUploadForm(instance=task)
-
-        task_forms.append((task, form))
 
     return render(request, 'main/freelancer_dashboard.html', {
         'task': task,
