@@ -1,93 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up</title>
 
-    <style>
-        
+  <style>
+    * {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-sizing: border-box;
+    }
 
-        * {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: rgb(3, 9, 41);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-        body {
-            padding: 0;
-            margin: 10px 3%;
-            background-color: rgb(3, 9, 41);
-        }
+    .register-container {
+      background-color: #1a1a2e;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+      width: 100%;
+      max-width: 600px;
+      color: #FFF5C9;
+    }
 
-        label {
-            color: #FFF5C9;
-            margin-bottom: 5px;
-            font-size: 20px;
-        }
+    h1 {
+      text-align: center;
+      color: rgb(255, 210, 152);
+      margin-bottom: 30px;
+    }
 
-        input[type="text"], input[type="password"], select, input[type="email"], input[type="file"] {
-            font-size: 18px;
-            padding: 10px;
-            border: 2px solid rgb(243, 199, 112);
-            outline: none;
-            width: 576px;
-            background-color: rgb(32, 31, 37);
-            color: #FFF5C9;
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+      color: #FFF5C9;
+    }
 
-        select {
-            width: 600px;
-        }
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="file"],
+    select {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 2px solid rgb(243, 199, 112);
+      background-color: rgb(32, 31, 37);
+      color: #FFF5C9;
+      border-radius: 5px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
 
-        .login-btn {
-            font-size: 18px;
-            padding: 15px;
-            width: 600px;
-            cursor: pointer;
-            border: none;
-            background-color: rgb(243, 199, 112);
-            transition: background 0.3s, transform 0.1s;
-        }
+    input:focus,
+    select:focus {
+      border-color: rgb(169, 115, 68);
+      box-shadow: 0 0 5px rgba(243, 199, 112, 0.5);
+    }
 
-        .login-btn:hover {
-            background-color: rgb(169, 115, 68);
-        }
+    .register-btn {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      background-color: rgb(243, 199, 112);
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
 
-        .login-btn:active {
-            transform: scale(0.98);
-        }
+    .register-btn:hover {
+      background-color: rgb(169, 115, 68);
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-    </style>
+    .register-btn:active {
+      transform: scale(0.98);
+    }
+
+    .error {
+      background-color: #402020;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .error ul {
+      list-style-type: none;
+      padding-left: 0;
+      color: #ff9999;
+      margin: 0;
+    }
+
+    .signup {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 15px;
+      color: #FFF5C9;
+    }
+
+    .signup a {
+      color: rgb(243, 199, 112);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .signup a:hover {
+      color: aquamarine;
+    }
+  </style>
 </head>
 <body>
+  <div class="register-container">
+    <h1>Register</h1>
+
     <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-        <label>{{field.label}}</label>
-        {{field}}
-        <br>
-        {% endfor %}
+      {% csrf_token %}
 
-        {% if form.errors %}
+      {% for field in form %}
+        <label>{{ field.label }}</label>
+        {{ field }}
+      {% endfor %}
 
-            <div class="error">
-                <ul>
+      {% if form.errors %}
+        <div class="error">
+          <ul>
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
 
-                    {% for field in form %}
-
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-
-                    {% endfor %}
-                    
-                </ul>
-            </div>
-        {% endif %}
-        <button type="submit" class="login-btn">Register</button>
+      <button type="submit" class="register-btn">Register</button>
     </form>
+
+    <p class="signup">Already have an account? You might want to <a href="/">Login</a></p>
+  </div>
 </body>
 </html>

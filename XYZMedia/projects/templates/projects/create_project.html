@@ -4,76 +4,108 @@
 
 {% block head %}
 <style>
-    form {
-        display: flex;
-        flex-direction: column;
-    }
+  .project-form-container {
+    background-color: #1a1a2e;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    width: 100%;
+    max-width: 700px;
+    margin: 40px auto;
+    color: #FFF5C9;
+  }
 
-    h1 {
-        margin-bottom: 20px;
-    }
+  .project-form-container h1 {
+    text-align: center;
+    color: rgb(255, 210, 152);
+    margin-bottom: 30px;
+  }
 
-    h1, label {
-        color: antiquewhite;
-    }
+  .project-form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #FFF5C9;
+  }
 
-    label {
-        font-size: 20px;
-        margin-bottom: 5px;
-    }
+  .project-form-container input[type="text"],
+  .project-form-container input[type="date"],
+  .project-form-container select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border: 2px solid rgb(243, 199, 112);
+    background-color: rgb(32, 31, 37);
+    color: #FFF5C9;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
 
-    input[type="text"], input[type="date"], select {
-        font-size: 18px;
-        padding: 10px;
-        border: 2px solid rgb(243, 199, 112);
-        outline: none;
-        width: 576px;
-        background-color: rgb(32, 31, 37);
-        color: #FFF5C9;
-    }
+  .project-form-container input:focus,
+  .project-form-container select:focus {
+    border-color: rgb(169, 115, 68);
+    box-shadow: 0 0 5px rgba(243, 199, 112, 0.5);
+  }
 
-    .create-btn {
-        font-size: 18px;
-        padding: 15px;
-        width: 576px;
-        cursor: pointer;
-        border: none;
-        background-color: rgb(243, 199, 112);
-        transition: background 0.3s, transform 0.1s;
-    }
+  .project-form-container .create-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    background-color: rgb(243, 199, 112);
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
 
-    .create-btn:hover {
-        background-color: rgb(169, 115, 68);
-    }
+  .project-form-container .create-btn:hover {
+    background-color: rgb(169, 115, 68);
+  }
 
-    .create-btn:active {
-        transform: scale(0.98);
-    }
+  .project-form-container .create-btn:active {
+    transform: scale(0.98);
+  }
+
+  .project-form-container .form-errors {
+    background-color: #402020;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    color: #ff9999;
+  }
+
+  .project-form-container .form-errors ul {
+    margin: 0;
+    padding-left: 20px;
+  }
 </style>
 {% endblock %}
 
 {% block mainbody %}
+<div class="project-form-container">
+  <h1>Create New Project</h1>
 
-<h1>Create New Project</h1>
-
-{% if form.errors %}
-    <p style="color: red;">There was an error with your submission. Please check the form fields.</p>
-    <ul>
+  {% if form.errors %}
+    <div class="form-errors">
+      <ul>
         {% for field in form %}
-            {% for error in field.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
+          {% for error in field.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
         {% endfor %}
-    </ul>
-{% endif %}
+      </ul>
+    </div>
+  {% endif %}
 
-<form method="POST">
+  <form method="POST">
     {% csrf_token %}
     {% for field in form %}
-    <label>{{field.label}}</label>
-    {{field}}
-    <br>
+      <label>{{ field.label }}</label>
+      {{ field }}
     {% endfor %}
     <button type="submit" class="create-btn">Create Project</button>
-</form>
+  </form>
+</div>
 {% endblock %}

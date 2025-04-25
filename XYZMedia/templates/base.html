@@ -1,124 +1,133 @@
 <!DOCTYPE html>
-
 {% load static %}
 
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Base</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Base{% endblock %}</title>
 
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Verdana, Geneva, Tahoma, sans-serif;
-            }
+  <link href="https://fonts.googleapis.com/css2?family=Solway&display=swap" rel="stylesheet" />
 
-            .sidebar {
-                height: 100%;
-                width: 200px;
-                position: fixed;
-                top: 0;
-                left: 0;
-                background-color: #111;
-                color: white;
-                padding-top: 20px;
-                align-items: center;
-                display: flex;
-                flex-direction: column;
-            }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Solway", serif;
+    }
 
-            .sidebar ul {
-                list-style-type: none;
-            }
+    body {
+      background-color: #1a1a2e;
+      color: #FFF5C9;
+    }
 
-            .sidebar ul li, .logo {
-                text-align: center;
-            }
+    .sidebar {
+      height: 100vh;
+      width: 220px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 0;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    }
 
-            .logo {
-                padding-top: 20px;
-                padding-bottom: 20px;
-            }
+    .logo {
+      text-align: center;
+      color: #f3c770;
+      margin-bottom: 20px;
+    }
 
-            .sidebar ul li a {
-                padding: 10px 18px;
-                color: white;
-                text-decoration: none;
-                display: block;
-                font-size: 20px;
-            }
+    .sidebar ul {
+      list-style: none;
+      padding-left: 0;
+    }
 
-            .sidebar ul li a:hover {
-                background-color: #575757;
-            }
+    .sidebar ul li {
+      text-align: center;
+      margin: 10px 0;
+    }
 
-            .sidetop {
-                position: fixed;
-                top: 0;
-            }
+    .sidebar ul li a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 10px 20px;
+      transition: background-color 0.3s ease;
+    }
 
-            .sidebottom {
-                position: fixed;
-                bottom: 0;
-                margin-bottom: 10px;
-            }
+    .sidebar ul li a:hover {
+      background-color: #575757;
+      border-radius: 4px;
+    }
 
-            .mainbody {
-                margin-left: 200px;
-                padding: 20px;
-                background-color: #575757;
-                background-image: url(https://images.pexels.com/photos/3367931/pexels-photo-3367931.jpeg?auto=compress&cs=tinysrgb&w=600);
-                background-attachment: fixed;
-                background-size: cover;
-                background-position: center center;
-                min-height: 100vh;
-            }
+    .sidebottom {
+      padding-bottom: 10px;
+      text-align: center;
+    }
 
-            h1 {
-                font-size: 2em;
-            }
+    .sidebottom h2 {
+      font-size: 16px;
+      color: #ccc;
+      margin-top: 10px;
+    }
 
-            p {
-                font-size: 1.2em;
-            }
-        </style>
+    .mainbody {
+      margin-left: 220px;
+      padding: 40px 30px;
+      background-image: url('https://t4.ftcdn.net/jpg/07/32/52/03/360_F_732520333_ovVku7qbLzY8r665XiRYksvNQyQ5V5Pv.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      min-height: 100vh;
+      backdrop-filter: blur(2px);
+    }
 
-        {% block head %}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="sidebar">
-            <div class="sidetop">
-                <div class="logo">
-                    <h1>LogoHere</h1>
-                </div>
-                <ul>
-                    <li><a href="/">Dashboard</a></li>
-                    <li><a href="{% url 'main:archives' %}">Archives</a></li>
-                    {% if user.userprofile.user_type == 'admin' %}
-                    <li><a href="{% url 'users:create_employee' %}">Create User</a></li>
-                    <li><a href="{% url 'projects:create_project' %}">Create Project</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-            <div class="sidebottom">
-                <ul>
-                    <li><a href="{% url 'main:logout' %}">Logout</a></li>
-                </ul>
-                <div class="logo">
-                    <h2>Logged in as {{ user.username }}</h2>
-                </div>
-            </div>
-        </div>
+    h1 {
+      font-size: 2em;
+      color: rgb(255, 210, 152);
+      margin-bottom: 20px;
+    }
 
-        <div class="mainbody">
-            
-            {% block mainbody %}
-            {% endblock %}
+    p {
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+  </style>
 
-        </div>
-    </body>
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="sidetop">
+      <div class="logo">
+        <h1>LogoHere</h1>
+      </div>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="{% url 'main:archives' %}">Archives</a></li>
+        {% if user.userprofile.user_type == 'admin' %}
+          <li><a href="{% url 'users:create_employee' %}">Create User</a></li>
+          <li><a href="{% url 'projects:create_project' %}">Create Project</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="sidebottom">
+      <ul>
+        <li><a href="{% url 'main:logout' %}">Logout</a></li>
+      </ul>
+      <h2>Logged in as {{ user.username }}</h2>
+    </div>
+  </div>
+
+  <div class="mainbody">
+    {% block mainbody %}{% endblock %}
+  </div>
+</body>
 </html>

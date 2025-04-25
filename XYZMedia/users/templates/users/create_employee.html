@@ -4,66 +4,110 @@
 
 {% block head %}
 <style>
-  form {
-    display: flex;
-    flex-direction: column;
-}
+  .employee-form-container {
+    background-color: #1a1a2e;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    width: 100%;
+    max-width: 700px;
+    margin: 40px auto;
+    color: #FFF5C9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
 
-h1 {
+  .employee-form-container h1 {
+    text-align: center;
+    color: rgb(255, 210, 152);
+    margin-bottom: 30px;
+  }
+
+  .employee-form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #FFF5C9;
+  }
+
+  .employee-form-container input[type="text"],
+  .employee-form-container input[type="date"],
+  .employee-form-container input[type="password"],
+  .employee-form-container select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
     margin-bottom: 20px;
-}
-
-h1, label {
-    color: antiquewhite;
-}
-
-label {
-    font-size: 20px;
-    margin-bottom: 5px;
-}
-
-input[type="text"], input[type="date"], select, input[type="password"] {
-    font-size: 18px;
-    padding: 10px;
     border: 2px solid rgb(243, 199, 112);
-    outline: none;
-    width: 576px;
     background-color: rgb(32, 31, 37);
     color: #FFF5C9;
-}
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
 
-.create-btn {
-    font-size: 18px;
+  .employee-form-container input:focus,
+  .employee-form-container select:focus {
+    border-color: rgb(169, 115, 68);
+    box-shadow: 0 0 5px rgba(243, 199, 112, 0.5);
+  }
+
+  .employee-form-container .create-btn {
+    width: 100%;
     padding: 15px;
-    width: 576px;
-    cursor: pointer;
-    border: none;
+    font-size: 18px;
     background-color: rgb(243, 199, 112);
-    transition: background 0.3s, transform 0.1s;
-}
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
 
-.create-btn:hover {
+  .employee-form-container .create-btn:hover {
     background-color: rgb(169, 115, 68);
-}
+  }
 
-.create-btn:active {
+  .employee-form-container .create-btn:active {
     transform: scale(0.98);
-}
+  }
+
+  .employee-form-container .form-errors {
+    background-color: #402020;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    color: #ff9999;
+  }
+
+  .employee-form-container .form-errors ul {
+    margin: 0;
+    padding-left: 20px;
+  }
 </style>
 {% endblock %}
 
 {% block mainbody %}
-  <div class="container">
+  <div class="employee-form-container">
     <h1>Create Employee</h1>
 
     <form method="post">
       {% csrf_token %}
-      
+
       {% for field in form %}
-      <label>{{field.label}}</label>
-      {{field}}
-      <br>
+        <label>{{ field.label }}</label>
+        {{ field }}
       {% endfor %}
+
+      {% if form.errors %}
+        <div class="form-errors">
+          <ul>
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
 
       <button type="submit" class="create-btn">Create Employee</button>
     </form>

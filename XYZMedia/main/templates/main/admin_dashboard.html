@@ -4,46 +4,48 @@
 
 {% block head %}
 <style>
-    /* General Styles */
-    .mainbody {
+
+    .admin-dashboard .mainbody {
         color: antiquewhite;
-        padding: 10px;
+        padding: 20px;
     }
 
-    h1, h2, h3 {
+    .admin-dashboard h1, .admin-dashboard h2, .admin-dashboard h3 {
         color: rgb(255, 210, 152);
-        margin-bottom: 15px;
+        margin-bottom: 20px;
     }
 
-    /* Table Styles */
-    table {
-    width: 100%;
-    border-collapse: collapse; /* Makes the table borders collapse into a single border */
+    .admin-dashboard .section {
+        margin-bottom: 40px;
     }
 
-    th, td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd; /* Light gray border */
+    .admin-dashboard .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
     }
 
-    tr:nth-child(odd) {
-    background-color: #242424; /* Light gray for odd rows */
+    .admin-dashboard .table th, .admin-dashboard .table td {
+        padding: 12px 20px;
+        text-align: left;
+        border: 1px solid #ddd;
     }
 
-    tr:nth-child(even) {
-    background-color: #313131; /* White for even rows */
+    .admin-dashboard .table tr:nth-child(odd) {
+        background-color: #242424;
     }
 
-    th {
-    background-color: #111; /* Green header */
-    color: white;
+    .admin-dashboard .table tr:nth-child(even) {
+        background-color: #313131;
     }
 
+    .admin-dashboard .table th {
+        background-color: #111;
+        color: white;
+    }
 
-    /* Button-like Links */
-    .btn {
-        padding: 10px 20px;
+    .admin-dashboard .btn {
+        padding: 12px 24px;
         text-decoration: none;
         background-color: rgb(243, 199, 112);
         color: black;
@@ -57,167 +59,190 @@
         cursor: pointer;
     }
 
-    .btn:hover {
+    .admin-dashboard .btn:hover {
         background-color: rgb(169, 115, 68);
     }
 
-    .btn:active {
+    .admin-dashboard .btn:active {
         transform: scale(0.98);
     }
 
-    .btn-danger {
+    .admin-dashboard .btn-approve {
         background-color: rgb(94, 199, 73);
     }
 
-    /* Flexbox Layout for Buttons */
-    .button-group {
+    .admin-dashboard .btn-reject {
+        background-color: rgb(199, 73, 73);
+    }
+
+    .admin-dashboard .button-group {
         display: flex;
-        gap: 15px;
+        gap: 20px;
         flex-wrap: wrap;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
     }
 
-    /* Freelancer Section Styling */
-    .resume {
-        padding: 5px 10px;
-        background-color: #8B6E3D;
-        color: white;
-        border-radius: 5px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    .resume:hover {
-        background-color: #6E4B2C;
-    }
-
-    /* Aligning Tables and Spacing */
-    table th, table td {
+    .admin-dashboard .table th, .admin-dashboard .table td {
         text-align: center;
+        color: white;
+        font-size: 18px;
+    }
+
+    .admin-dashboard .employee-list,
+    .admin-dashboard .freelancer-list {
+        margin-bottom: 20px;
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .admin-dashboard .employee-list li,
+    .admin-dashboard .freelancer-list li {
+        padding: 10px;
+        background-color: #242424;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .admin-dashboard .freelancer-list li.approved {
+        background-color: #4CAF50;
+    }
+
+    .admin-dashboard .freelancer-list li.pending {
+        background-color: rgb(243, 199, 112);
+        color: #111;
     }
 
 </style>
 {% endblock %}
 
 {% block mainbody %}
-<h1>Admin Dashboard</h1>
+<div class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
 
-<h2>All Projects</h2>
+    <!-- Section 1: All Projects -->
+    <div class="section">
+        <h2>All Projects</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Project Title</th>
+                    <th>Status</th>
+                    <th>Assigned Writer</th>
+                    <th>Assigned Producer</th>
+                    <th>Assigned Compiler</th>
+                    <th>Due Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.title }}</td>
+                    <td>{{ project.status }}</td>
+                    <td>
+                        {% if project.assigned_writer %}
+                            {{ project.assigned_writer.user.username }}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if project.assigned_producer %}
+                            {{ project.assigned_producer.user.username }}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if project.assigned_compiler %}
+                            {{ project.assigned_compiler.user.username }}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                    </td>
+                    <td>{{ project.due_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Project Title</th>
-            <th>Status</th>
-            <th>Assigned Writer</th>
-            <th>Assigned Producer</th>
-            <th>Assigned Compiler</th>
-            <th>Due Date</th>
-        </tr>
-    </thead>
-    
-    <tbody>
-        {% for project in projects %}
-        <tr>
-            <td>{{ project.title }}</td>
-            <td>{{ project.status }}</td>
+    <!-- Button Group for Creating New Project and Employee -->
+    <div class="button-group">
+        <a href="{% url 'projects:create_project' %}" class="btn">Create New Project</a>
+        <a href="{% url 'users:create_employee' %}" class="btn">Create New Employee</a>
+    </div>
 
-            <td>
-                {% if project.assigned_writer %}
-                    {{ project.assigned_writer.user.username }}
-                {% else %}
-                    Not Assigned
-                {% endif %}
-            </td>
+    <!-- Section 2: Freelancer Approval -->
+    <div class="section">
+        <h2>Freelancers Awaiting Approval</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Resume</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile in freelancers %}
+                <tr>
+                    <td>{{ profile.user.username }}</td>
+                    <td>{{ profile.user.email }}</td>
+                    <td>
+                        {% if profile.resume %}
+                            <a href="{{ profile.resume.url }}" target="_blank" class="btn">View Resume</a>
+                        {% else %}
+                            No Resume Uploaded
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST" action="{% url 'users:approve_freelancer' profile.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-approve">Approve</button>
+                        </form>
+                        <form method="POST" action="{% url 'users:reject_freelancer' profile.user.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-reject">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-            <td>
-                {% if project.assigned_producer %}
-                    {{ project.assigned_producer.user.username }}
-                {% else %}
-                    Not Assigned
-                {% endif %}
-            </td>
+    <!-- Section 3: Employees and Freelancers List -->
+    <div class="section">
+        <h2>All Employees and Freelancers</h2>
 
-            <td>
-                {% if project.assigned_compiler %}
-                    {{ project.assigned_compiler.user.username }}
-                {% else %}
-                    Not Assigned
-                {% endif %}
-            </td>
-            
-            <td>{{ project.due_date }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <h3>Employees</h3>
+        <ul class="employee-list">
+            {% for user in employees %}
+            <li>{{ user.user.username }} ({{ user.role }})</li>
+            {% endfor %}
+        </ul>
 
-<div class="button-group">
-    <!-- Button to Create a New Project -->
-    <a href="{% url 'projects:create_project' %}" class="btn">Create New Project</a>
-    <a href="{% url 'users:create_employee' %}" class="btn">Create New Employee</a>
+        <h3>Freelancers Awaiting Approval</h3>
+        <ul class="freelancer-list">
+            {% for user in freelancers %}
+            <li class="{% if user.is_approved %}approved{% else %}pending{% endif %}">
+                {{ user.user.username }} ({{ user.role }}) - {% if user.is_approved %}Approved{% else %}Pending Approval{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h3>Approved Freelancers</h3>
+        <ul class="freelancer-list">
+            {% for user in freelancers_list %}
+            <li>{{ user.user.username }} ({{ user.role }})</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
-
-<!-- Section 2: Freelancer Approval -->
-<h2>Freelancers Awaiting Approval</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Resume</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for profile in freelancers %}
-        <tr>
-            <td>{{ profile.user.username }}</td>
-            <td>{{ profile.user.email }}</td>
-            <td>
-                {% if profile.resume %}
-                    <a href="{{ profile.resume.url }}" target="_blank" class="btn">View Resume</a>
-                {% else %}
-                    No Resume Uploaded
-                {% endif %}
-            </td>
-            <td>
-                <form method="POST" action="{% url 'users:approve_freelancer' profile.id %}" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Approve</button>
-                </form>
-            
-                <form method="POST" action="{% url 'users:reject_freelancer' profile.user.id %}" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Reject</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<!-- Section 3: List of All Employees and Freelancers -->
-<h2>All Employees and Freelancers</h2>
-<h3>Employees</h3>
-<ul>
-    {% for user in employees %}
-    <li>{{ user.user.username }} ({{ user.role }})</li>
-    {% endfor %}
-</ul>
-
-<h3>Freelancers Awaiting Approval</h3>
-<ul>
-    {% for user in freelancers %}
-    <li>{{ user.user.username }} ({{ user.role }}) - {% if user.is_approved %}Approved{% else %}Pending Approval{% endif %}</li>
-    {% endfor %}
-</ul>
-
-<h3>Approved Freelancers</h3>
-<ul>
-    {% for user in freelancers_list %}
-    <li>{{ user.user.username }} ({{ user.role }})</li>
-    {% endfor %}
-</ul>
-
 {% endblock %}

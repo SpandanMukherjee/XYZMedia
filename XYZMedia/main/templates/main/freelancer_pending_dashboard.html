@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block head %}
+<style>
+    .waiting {
+        color: rgb(255, 210, 152);
+    }
+</style>
+{% endblock %}
+
 {% block mainbody %}
-    <h2>Your account has been created, please wait for admin approval.</h2>
+    <h2 class="waiting">Your account has been created, please wait for admin approval.</h2>
 {% endblock %}

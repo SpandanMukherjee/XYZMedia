@@ -1,27 +1,97 @@
 {% extends 'base.html' %}
+
+{% block title %} Employee Dashboard {% endblock %}
+
+{% block head %}
+<style>
+    .employee-dashboard {
+        color: antiquewhite;
+        padding: 20px;
+    }
+
+    .employee-dashboard h1,
+    .employee-dashboard h4 {
+        color: rgb(255, 210, 152);
+        margin-bottom: 20px;
+    }
+
+    .employee-dashboard .card {
+        background-color: #242424;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .employee-dashboard p {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    .employee-dashboard .script,
+    .employee-dashboard .video {
+        display: inline-block;
+        margin-right: 15px;
+        color: rgb(243, 199, 112);
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .employee-dashboard .script:hover,
+    .employee-dashboard .video:hover {
+        text-decoration: underline;
+        color: rgb(169, 115, 68);
+    }
+
+    .employee-dashboard form {
+        margin-top: 15px;
+    }
+
+    .employee-dashboard .btn {
+        padding: 12px 24px;
+        background-color: rgb(243, 199, 112);
+        color: black;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .employee-dashboard .btn:hover {
+        background-color: rgb(169, 115, 68);
+    }
+
+    .employee-dashboard .btn:active {
+        transform: scale(0.98);
+    }
+</style>
+{% endblock %}
+
 {% block mainbody %}
-<div class="container mt-5">
-    <h2>Employee Dashboard</h2>
+<div class="employee-dashboard">
+    <h1>Employee Dashboard</h1>
 
     {% if task_forms %}
         {% for task, form in task_forms %}
-            <div class="card my-3 p-3">
+            <div class="card">
                 <h4>{{ task.title }}</h4>
                 <p><strong>Topic:</strong> {{ task.topic }}</p>
                 <p><strong>Due:</strong> {{ task.due_date }}</p>
 
                 {% if task.status == 'producing_in_progress' %}
-                <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
+                    <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
                 {% elif task.status == 'compiling_in_progress' %}
-                <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
-                <a href="{{ task.video.url }}" target="_blank" class="video">View Video</a>
+                    <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
+                    <a href="{{ task.video.url }}" target="_blank" class="video">View Video</a>
                 {% endif %}
 
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="hidden" name="task_id" value="{{ task.id }}">
-                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                    <button type="submit" class="btn">Submit</button>
                 </form>
             </div>
         {% endfor %}
@@ -30,5 +100,3 @@
     {% endif %}
 </div>
 {% endblock %}
-<!-- 
- -->

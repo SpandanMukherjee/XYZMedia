@@ -1,43 +1,119 @@
 {% extends 'base.html' %}
+
+{% block title %} Freelancer Dashboard {% endblock %}
+
+{% block head %}
+<style>
+  .freelancer-dashboard {
+    color: antiquewhite;
+    padding: 20px;
+  }
+
+  .freelancer-dashboard h1,
+  .freelancer-dashboard h4,
+  .freelancer-dashboard h5 {
+    color: rgb(255, 210, 152);
+    margin-bottom: 20px;
+  }
+
+  .freelancer-dashboard .card,
+  .freelancer-dashboard .list-group-item {
+    background-color: #242424;
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .freelancer-dashboard p {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .freelancer-dashboard .script,
+  .freelancer-dashboard .video {
+    display: inline-block;
+    margin-right: 15px;
+    color: rgb(243, 199, 112);
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .freelancer-dashboard .script:hover,
+  .freelancer-dashboard .video:hover {
+    color: rgb(169, 115, 68);
+    text-decoration: underline;
+  }
+
+  .freelancer-dashboard form {
+    margin-top: 10px;
+  }
+
+  .freelancer-dashboard .btn {
+    padding: 12px 24px;
+    background-color: rgb(243, 199, 112);
+    color: black;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .freelancer-dashboard .btn:hover {
+    background-color: rgb(169, 115, 68);
+  }
+
+  .freelancer-dashboard .btn-outline-primary {
+    background-color: transparent;
+    border: 2px solid rgb(243, 199, 112);
+    color: rgb(243, 199, 112);
+    padding: 10px 20px;
+  }
+
+  .freelancer-dashboard .btn-outline-primary:hover {
+    background-color: rgb(243, 199, 112);
+    color: black;
+  }
+</style>
+{% endblock %}
+
 {% block mainbody %}
-<div class="container mt-5">
-  <h2>Freelancer Dashboard</h2>
+<div class="freelancer-dashboard">
+  <h1>Freelancer Dashboard</h1>
 
   {% if task_forms %}
-
     {% for task, form in task_forms %}
-
       <h4>Your Assigned Task</h4>
-      <div class="card p-3 mb-4">
+      <div class="card">
         <h5>{{ task.title }}</h5>
         <p><strong>Topic:</strong> {{ task.topic }}</p>
         <p><strong>Due Date:</strong> {{ task.due_date }}</p>
         {% if task.status == 'producing_in_progress' %}
-        <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
+          <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
         {% elif task.status == 'compiling_in_progress' %}
-        <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
-        <a href="{{ task.video.url }}" target="_blank" class="video">View Video</a>
+          <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
+          <a href="{{ task.video.url }}" target="_blank" class="video">View Video</a>
         {% endif %}
 
         <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="hidden" name="task_id" value="{{ task.id }}">
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
-        </form> 
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="hidden" name="task_id" value="{{ task.id }}">
+          <button type="submit" class="btn">Submit</button>
+        </form>
       </div>
-
     {% endfor %}
 
   {% else %}
-    <!-- No Assigned Task -->
     <h4>No tasks assigned right now. You’re free!</h4>
 
     {% if available_tasks %}
       <h5>Available Tasks to Claim</h5>
       <div class="list-group">
         {% for t in available_tasks %}
-          <div class="list-group-item mb-2">
+          <div class="list-group-item">
             <h5>{{ t.title }}</h5>
             <p><strong>Topic:</strong> {{ t.topic }}</p>
             <p><strong>Due Date:</strong> {{ t.due_date }}</p>
@@ -54,6 +130,5 @@
       <p>No low-priority tasks available right now. Please check again later!</p>
     {% endif %}
   {% endif %}
-  
 </div>
 {% endblock %}
