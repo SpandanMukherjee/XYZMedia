@@ -1,16 +1,74 @@
 {% extends "base.html" %}
 
-{% block mainbody %}
-    <h1>Project Archive</h1>
-    <p>Welcome to the project archive. Here you can find all the completed projects.</p>
+{% block head %}
+<style>
+    .video {
+        display: inline-block;
+        margin: 10px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
 
-    <ul>
-        {% for project in projects %}
-            <li>
+    .video:hover {
+        transform: scale(1.05);
+    }
+
+    .video img {
+        width: 240px;
+        height: 150px;
+        display: block;
+    }
+
+    .video-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+        justify-items: center;
+        padding: 20px;
+    }
+
+    .video-title {
+        text-align: left;
+        margin-top: 10px;
+        color: antiquewhite;
+    }
+
+    .video-description {
+        text-align: right;
+        font-size: 14px;
+        color: rgb(197, 191, 184);
+    }
+
+    .video a {
+        display: inline-flex;
+        border: 1px solid antiquewhite;
+    }
+
+    .top {
+        color: antiquewhite;
+    }
+</style>
+{% endblock %}
+
+{% block mainbody %}
+<h1 class="top">Project Archive</h1>
+<p class="top">Welcome to the project archive. Here you can find all the completed projects.</p>
+
+<div class="video-container">
+    {% for project in projects %}
+        <div class="video">
+            <a href="{{ project.video.url }}" target="_blank">
+                <img src="{{ project.thumbnail.url }}" alt="{{ project.title }} Thumbnail">
+            </a>
+            <div class="video-title">
                 <h2>{{ project.title }}</h2>
-                <p>{{ project.topic }}</p>
-                <a href="{{ project.video.url }}" target="_blank" class="video"><img src="{{ project.thumbnail.url }}" alt="No Thumbnail"></a>
-                <p><strong>Completion Date:</strong> {{ project.completion_date }}</p>
-            </li>
-        {% endfor %}
+            </div>
+            <div class="video-description">
+                <p>{{ project.completion_date }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

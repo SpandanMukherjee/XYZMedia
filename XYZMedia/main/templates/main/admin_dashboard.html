@@ -4,45 +4,103 @@
 
 {% block head %}
 <style>
-    
-    table {
-        border-collapse: collapse;
-        width: 100%;
+    /* General Styles */
+    .mainbody {
+        color: antiquewhite;
+        padding: 10px;
     }
 
-    td, th {
-        border: 1px solid #DBAE58;
-        text-align: left;
-        padding: 8px;
-        color: antiquewhite;
+    h1, h2, h3 {
+        color: rgb(255, 210, 152);
+        margin-bottom: 15px;
+    }
+
+    /* Table Styles */
+    table {
+    width: 100%;
+    border-collapse: collapse; /* Makes the table borders collapse into a single border */
+    }
+
+    th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd; /* Light gray border */
+    }
+
+    tr:nth-child(odd) {
+    background-color: #242424; /* Light gray for odd rows */
+    }
+
+    tr:nth-child(even) {
+    background-color: #313131; /* White for even rows */
     }
 
     th {
-        color: rgb(255, 210, 152);
+    background-color: #111; /* Green header */
+    color: white;
     }
 
-    h1, h2, h3, ul {
-        color: antiquewhite;
-    }
 
-    .new_project, .resume, .approve {
-        padding: 5px 8px;
+    /* Button-like Links */
+    .btn {
+        padding: 10px 20px;
         text-decoration: none;
         background-color: rgb(243, 199, 112);
         color: black;
+        font-size: 16px;
         text-align: center;
-        transition: all 0.3s;
-        font-size: 15px;
+        border-radius: 5px;
+        display: inline-block;
+        transition: all 0.3s ease;
+        margin: 5px;
         border: none;
         cursor: pointer;
     }
 
-    .new_project:hover, .resume:hover, .approve:hover {
+    .btn:hover {
         background-color: rgb(169, 115, 68);
     }
 
-    .approve:active {
+    .btn:active {
         transform: scale(0.98);
+    }
+
+    .btn-danger {
+        background-color: rgb(94, 199, 73);
+    }
+
+    /* Flexbox Layout for Buttons */
+    .button-group {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    /* Freelancer Section Styling */
+    .resume {
+        padding: 5px 10px;
+        background-color: #8B6E3D;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .resume:hover {
+        background-color: #6E4B2C;
+    }
+
+    /* Aligning Tables and Spacing */
+    table th, table td {
+        text-align: center;
+    }
+
+    .pie {
+        width: 400px;
+        height: 400px;
+        background-image: conic-gradient(orange 64%, blue);
+        border-radius: 50%
     }
 
 </style>
@@ -53,7 +111,7 @@
 
 <h2>All Projects</h2>
 
-<table border="1" cellpadding="10">
+<table>
     <thead>
         <tr>
             <th>Project Title</th>
@@ -100,14 +158,16 @@
         {% endfor %}
     </tbody>
 </table>
-<br>
-<!-- Button to Create a New Project -->
-<a href="{% url 'projects:create_project' %}" class="new_project">Create New Project</a>
-<a href="{% url 'users:create_employee' %}" class="btn btn-success">Create New Employee</a>
+
+<div class="button-group">
+    <!-- Button to Create a New Project -->
+    <a href="{% url 'projects:create_project' %}" class="btn">Create New Project</a>
+    <a href="{% url 'users:create_employee' %}" class="btn">Create New Employee</a>
+</div>
 
 <!-- Section 2: Freelancer Approval -->
 <h2>Freelancers Awaiting Approval</h2>
-<table border="1" cellpadding="10">
+<table>
     <thead>
         <tr>
             <th>Username</th>
@@ -123,7 +183,7 @@
             <td>{{ profile.user.email }}</td>
             <td>
                 {% if profile.resume %}
-                    <a href="{{ profile.resume.url }}" target="_blank" class="resume">View Resume</a>
+                    <a href="{{ profile.resume.url }}" target="_blank" class="btn">View Resume</a>
                 {% else %}
                     No Resume Uploaded
                 {% endif %}
@@ -131,7 +191,7 @@
             <td>
                 <form method="POST" action="{% url 'users:approve_freelancer' profile.id %}">
                     {% csrf_token %}
-                    <button type="submit" class="approve">Approve</button>
+                    <button type="submit" class="btn btn-danger">Approve</button>
                 </form>
             </td>
         </tr>
@@ -161,5 +221,7 @@
     <li>{{ user.user.username }} ({{ user.role }})</li>
     {% endfor %}
 </ul>
+
+<div class="pie"></div>
 
 {% endblock %}
