@@ -26,7 +26,7 @@ class ScriptUploadForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ['script']
+        fields = ('script',)
 
     def save(self, commit=True):
         project = super().save(commit=False)
@@ -56,6 +56,7 @@ class VideoUploadForm(forms.ModelForm):
 class ThumbnailUploadForm(forms.ModelForm):
 
     SEND_BACK_CHOICES = [
+        ('done', 'Done'),
         ('unassigned', 'Send back to Writers (unassigned)'),
         ('writing_complete', 'Send back to Producers (writing complete)'),
     ]

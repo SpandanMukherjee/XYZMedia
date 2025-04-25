@@ -1,22 +1,33 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block mainbody %}
 <div class="container mt-5">
   <h2>Freelancer Dashboard</h2>
 
-  {% if task %}
-    <!-- Assigned Task + Upload Form -->
-    <h4>Your Assigned Task</h4>
-    <div class="card p-3 mb-4">
-      <h5>{{ task.title }}</h5>
-      <p><strong>Topic:</strong> {{ task.topic }}</p>
-      <p><strong>Due Date:</strong> {{ task.due_date }}</p>
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ task_forms.0.1.as_p }}
-        <input type="hidden" name="task_id" value="{{ task.id }}">
-        <button type="submit" class="btn btn-primary mt-2">Submit</button>
-      </form>
-    </div>
+  {% if task_forms %}
+
+    {% for task, forms in task_forms %}
+
+      <h4>Your Assigned Task</h4>
+      <div class="card p-3 mb-4">
+        <h5>{{ task.title }}</h5>
+        <p><strong>Topic:</strong> {{ task.topic }}</p>
+        <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+        {% if task.status == 'producing_in_progress' %}
+        <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
+        {% elif task.status == 'compiling_in_progress' %}
+        <a href="{{ task.script.url }}" target="_blank" class="script">View Script</a>
+        <a href="{{ task.video.url }}" target="_blank" class="video">View Video</a>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="task_id" value="{{ task.id }}">
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form> 
+      </div>
+
+    {% endfor %}
 
   {% else %}
     <!-- No Assigned Task -->
@@ -43,4 +54,6 @@
       <p>No low-priority tasks available right now. Please check again later!</p>
     {% endif %}
   {% endif %}
+  
 </div>
+{% endblock %}
