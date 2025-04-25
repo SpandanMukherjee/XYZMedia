@@ -155,6 +155,7 @@ def freelancer_dashboard(request):
                     form.save()
                     task.status = 'producing_complete'
                     task.assigned_producer = None
+                    task.priority = 'high'
                     task.save()
 
         # Claim case
@@ -192,7 +193,7 @@ def freelancer_dashboard(request):
         elif profile.role == 'producer':
             form = VideoUploadForm(instance=task)
             
-    task_forms.append((task, form))
+        task_forms.append((task, form))
 
     return render(request, 'main/freelancer_dashboard.html', {
         'task': task,
