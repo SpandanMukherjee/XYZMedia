@@ -190,6 +190,7 @@ def freelancer_dashboard(request):
             form = ScriptUploadForm(instance=task)
         elif profile.role == 'producer':
             form = VideoUploadForm(instance=task)
+        task_forms.append((task, form))
 
     return render(request, 'main/freelancer_dashboard.html', {
         'task': task,
