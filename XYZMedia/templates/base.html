@@ -1,76 +1,116 @@
 <!DOCTYPE html>
+
 {% load static %}
+
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>{% block title %}Base{% endblock %}</title>
+        <title>Base</title>
 
         <style>
-            
             * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
             }
 
-            body {
-                padding: 0;
-                margin: 0;
-                background-color: #2b2b2b;
-            }
-
-            nav {
-                justify-content: space-between;
-            }
-
-            .navleft, .navright, nav {
-                background-color: #000000;
+            .sidebar {
+                height: 100%;
+                width: 200px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background-color: #111;
+                color: white;
+                padding-top: 20px;
+                align-items: center;
                 display: flex;
+                flex-direction: column;
             }
 
-            .navleft a, .navright a {
-                text-decoration: none;
-                font-size: 22px;
+            .sidebar ul {
+                list-style-type: none;
+            }
+
+            .sidebar ul li, .logo {
+                text-align: center;
+            }
+
+            .logo {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+
+            .sidebar ul li a {
                 padding: 10px 18px;
-                color: #DBAE58;
-                transition: all 0.3s;
+                color: white;
+                text-decoration: none;
+                display: block;
+                font-size: 20px;
             }
 
-            .navleft a:hover, .navright a:hover {
-                background-color: #AC3E31;
-                color: #ffd891;
+            .sidebar ul li a:hover {
+                background-color: #575757;
+            }
+
+            .sidetop {
+                position: fixed;
+                top: 0;
+            }
+
+            .sidebottom {
+                position: fixed;
+                bottom: 0;
+                margin-bottom: 10px;
             }
 
             .mainbody {
-                padding: 10px 3%;
+                margin-left: 200px;
+                padding: 20px;
             }
-            
+
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1.2em;
+            }
         </style>
 
         {% block head %}
         {% endblock %}
     </head>
     <body>
-        <nav>
-            <div class="navleft">
-                <a href="#">insertlogohere</a>
+        <div class="sidebar">
+            <div class="sidetop">
+                <div class="logo">
+                    <h1>LogoHere</h1>
+                </div>
+                <ul>
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="#">Archives</a></li>
+                    {% if user.userprofile.user_type == 'admin' %}
+                    <li><a href="{% url 'users:create_employee' %}">Create User</a></li>
+                    <li><a href="{% url 'projects:create_project' %}">Create Project</a></li>
+                    {% endif %}
+                </ul>
             </div>
-            <div class="navright">
-                <a href="{% url 'main:logout' %}">Logout</a>
-
-                {% if user.is_authenticated %}
-                    <a href="{% url 'main:redirect_to_dashboard' %}">Dashboard</a>
-                {% endif %}
-
+            <div class="sidebottom">
+                <ul>
+                    <li><a href="{% url 'main:logout' %}">Logout</a></li>
+                    <li><a href="#">User Profile</a></li>
+                </ul>
             </div>
-        </nav>
+        </div>
 
         <div class="mainbody">
-
+            
             {% block mainbody %}
             {% endblock %}
 
         </div>
-
     </body>
 </html>
