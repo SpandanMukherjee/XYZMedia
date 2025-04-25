@@ -96,13 +96,6 @@
         text-align: center;
     }
 
-    .pie {
-        width: 400px;
-        height: 400px;
-        background-image: conic-gradient(orange 64%, blue);
-        border-radius: 50%
-    }
-
 </style>
 {% endblock %}
 
@@ -196,7 +189,7 @@
             
                 <form method="POST" action="{% url 'users:reject_freelancer' profile.user.id %}" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit" class="approve" style="background-color: rgb(200, 80, 80);">Reject</button>
+                    <button type="submit" class="btn btn-danger">Reject</button>
                 </form>
             </td>
         </tr>
@@ -226,7 +219,5 @@
     <li>{{ user.user.username }} ({{ user.role }})</li>
     {% endfor %}
 </ul>
-
-<div class="pie"></div>
 
 {% endblock %}
