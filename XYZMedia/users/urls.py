@@ -1,9 +1,10 @@
 from django.urls import path
-from . import views
+from users import views
 
 app_name = 'users'
 
 urlpatterns = [
     path('register/', views.register_user, name="register"),
+    path('create_employee/', views.create_employee, name="create_employee"),
     path('approve/<int:id>', views.approve_freelancer, name='approve_freelancer'),
 ]
