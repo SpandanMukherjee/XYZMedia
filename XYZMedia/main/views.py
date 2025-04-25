@@ -204,7 +204,6 @@ def freelancer_dashboard(request):
         'task_forms': task_forms
     })
 
-@login_required
 def archives(request):  
     projects = Project.objects.filter(status='done')
     return render(request, 'main/archives.html', {'projects': projects})

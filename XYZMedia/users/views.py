@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from users.forms import SignupForm, EmployeeCreationForm
 from django.contrib import messages
 from users.models import UserProfile
-from main.views import admin_dashboard
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 

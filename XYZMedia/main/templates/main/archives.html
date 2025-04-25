@@ -1,74 +1,171 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Archive</title>
 
-{% block head %}
-<style>
-    .video {
-        display: inline-block;
-        margin: 10px;
-        overflow: hidden;
-        position: relative;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Solway&display=swap" rel="stylesheet" />
 
-    .video:hover {
-        transform: scale(1.05);
-    }
+    <style>
+        .video {
+            display: inline-block;
+            margin: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
 
-    .video img {
-        width: 240px;
-        height: 150px;
-        display: block;
-    }
+        .video:hover {
+            transform: scale(1.05);
+        }
 
-    .video-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 16px;
-        justify-items: center;
-        padding: 20px;
-    }
+        .video img {
+            width: 240px;
+            height: 150px;
+            display: block;
+            cursor: pointer;
+        }
 
-    .video-title {
-        text-align: left;
-        margin-top: 10px;
-        color: antiquewhite;
-    }
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            justify-items: center;
+            padding: 20px;
+        }
 
-    .video-description {
-        text-align: right;
-        font-size: 14px;
-        color: rgb(197, 191, 184);
-    }
+        .video-title {
+            text-align: left;
+            margin-top: 10px;
+            color: antiquewhite;
+        }
 
-    .video a {
-        display: inline-flex;
-        border: 1px solid antiquewhite;
-    }
+        .video-description {
+            text-align: right;
+            font-size: 14px;
+            color: rgb(197, 191, 184);
+        }
 
-    .top {
-        color: antiquewhite;
-    }
-</style>
-{% endblock %}
+        .top {
+            color: antiquewhite;
+        }
 
-{% block mainbody %}
-<h1 class="top">Project Archive</h1>
-<p class="top">Welcome to the project archive. Here you can find all the completed projects.</p>
+        body {
+            background-color: #1a1a2e;
+            margin: 0;
+            padding: 40px;
+            font-family: "Solway", serif;
+            background-image: url('https://t4.ftcdn.net/jpg/07/32/52/03/360_F_732520333_ovVku7qbLzY8r665XiRYksvNQyQ5V5Pv.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh;
+        }
 
-<div class="video-container">
-    {% for project in projects %}
-        <div class="video">
-            <a href="{{ project.video.url }}" target="_blank">
-                <img src="{{ project.thumbnail.url }}" alt="{{ project.title }} Thumbnail">
-            </a>
-            <div class="video-title">
-                <h2>{{ project.title }}</h2>
-            </div>
-            <div class="video-description">
-                <p>{{ project.completion_date }}</p>
-            </div>
+        .home-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background-color: #f3c770;
+            color: #1a1a2e;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .home-button:hover {
+            background-color: #d1a94e;
+        }
+
+        #player-container {
+            display: none;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        #close-player {
+            background-color: #f3c770;
+            color: #1a1a2e;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        #close-player:hover {
+            background-color: #d1a94e;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-button">Home</a>
+
+    <h1 class="top">Project Archive</h1>
+    <p class="top">Welcome to the project archive. Here you can find all the completed projects.</p>
+
+    <!-- Video Player Section -->
+    <div id="player-container">
+        <div style="display: flex; justify-content: center; align-items: flex-start; gap: 40px; flex-wrap: wrap;">
+            <video id="video-player" width="960" height="540" controls autoplay style="max-width: 100%; height: auto;"></video>
+            <div id="video-topic" style="color: antiquewhite; max-width: 300px; font-size: 16px; line-height: 1.5;"></div>
         </div>
-    {% endfor %}
-</div>
-{% endblock %}
+        <div style="margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 20px;">
+            <h2 id="video-title" style="color: antiquewhite; margin: 0;"></h2>
+            <button id="close-player" onclick="closePlayer()">Close</button>
+        </div>
+    </div>
+
+    <!-- Thumbnails -->
+    <div class="video-container">
+        {% for project in projects %}
+            <div class="video">
+                <img src="{{ project.thumbnail.url }}" alt="{{ project.title }} Thumbnail"
+                    onclick="playVideo('{{ project.video.url }}', '{{ project.title }}', '{{ project.topic }}')">
+
+                <div class="video-title">
+                    <h2>{{ project.title }}</h2>
+                </div>
+                <div class="video-description">
+                    <p>{{ project.completion_date }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function playVideo(url, title, topic) {
+            const playerContainer = document.getElementById('player-container');
+            const videoPlayer = document.getElementById('video-player');
+            const videoTitle = document.getElementById('video-title');
+            const videoTopic = document.getElementById('video-topic');
+    
+            videoPlayer.src = url;
+            videoTitle.textContent = title;
+            videoTopic.textContent = `Topic: ${topic}`;
+    
+            playerContainer.style.display = 'block';
+            videoPlayer.play();
+            window.scrollTo({ top: playerContainer.offsetTop - 20, behavior: 'smooth' });
+        }
+    
+        function closePlayer() {
+            const playerContainer = document.getElementById('player-container');
+            const videoPlayer = document.getElementById('video-player');
+            const videoTitle = document.getElementById('video-title');
+            const videoTopic = document.getElementById('video-topic');
+    
+            videoPlayer.pause();
+            videoPlayer.src = '';
+            videoTitle.textContent = '';
+            videoTopic.textContent = '';
+            playerContainer.style.display = 'none';
+        }
+    </script>    
+    
+</body>
+</html>
