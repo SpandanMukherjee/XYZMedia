@@ -141,22 +141,6 @@ def freelancer_dashboard(request):
                     task.assigned_producer = None
                     task.save()
 
-            elif profile.role == 'compiler' and 'thumbnail' in request.FILES:
-                form = ThumbnailUploadForm(request.POST, request.FILES, instance=task)
-                if form.is_valid():
-                    project = form.save()
-                    send_back_to = form.cleaned_data.get('send_back_to')
-                    project.assigned_compiler = None
-                    if send_back_to == 'unassigned':
-                        project.assigned_writer = None
-                        project.assigned_producer = None
-                    elif send_back_to == 'writing_complete':
-                        project.assigned_producer = None
-                    else:
-                        project.assigned_writer = None
-                        project.assigned_producer = None
-                    project.save()
-
         # Claim case
         else:
             if profile.role == 'writer' and task.assigned_writer is None:
