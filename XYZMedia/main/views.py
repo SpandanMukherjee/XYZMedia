@@ -19,7 +19,7 @@ def redirect_to_dashboard(request):
 
 @login_required
 def admin_dashboard(request):
-    projects = Project.objects.all()
+    projects = Project.objects.exclude(status='done')
     freelancers = UserProfile.objects.filter(user_type='freelancer', is_approved=False)
     employees = UserProfile.objects.filter(user_type='employee')
     freelancers_list = UserProfile.objects.filter(user_type='freelancer', is_approved=True)

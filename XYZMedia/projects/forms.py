@@ -86,7 +86,7 @@ class ThumbnailUploadForm(forms.ModelForm):
             project.status = send_back_to
             project.revision_reason = reason or ''
         else:
-            project.status = 'ready'
+            project.status = 'done'
             project.revision_reason = ''
 
         if commit:

@@ -16,7 +16,6 @@ class Project(models.Model):
         ('producing_in_progress', 'Producing in Progress'),
         ('producing_complete', 'Producing Complete'),
         ('compiling_in_progress', 'Compiling in Progress'),
-        ('ready', 'Ready'),
         ('done', 'Done'),
     ]
 
