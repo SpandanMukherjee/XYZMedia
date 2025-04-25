@@ -100,7 +100,7 @@
                 </div>
                 <ul>
                     <li><a href="/">Dashboard</a></li>
-                    <li><a href="#">Archives</a></li>
+                    <li><a href="{% url 'main:archives' %}">Archives</a></li>
                     {% if user.userprofile.user_type == 'admin' %}
                     <li><a href="{% url 'users:create_employee' %}">Create User</a></li>
                     <li><a href="{% url 'projects:create_project' %}">Create Project</a></li>
@@ -110,8 +110,10 @@
             <div class="sidebottom">
                 <ul>
                     <li><a href="{% url 'main:logout' %}">Logout</a></li>
-                    <li><a href="#">User Profile</a></li>
                 </ul>
+                <div class="logo">
+                    <h2>Logged in as {{ user.username }}</h2>
+                </div>
             </div>
         </div>
 

@@ -91,7 +91,6 @@ class ThumbnailUploadForm(forms.ModelForm):
         else:
             project.status = 'done'
             project.revision_reason = ''
-            project.completion_date = date.today()
 
         if commit:
             project.save()

@@ -3,6 +3,7 @@ from django.db import models
 from users.models import UserProfile
 from datetime import date
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class Project(models.Model):
 
@@ -65,6 +66,10 @@ class Project(models.Model):
             
             if days_left <= 2:
                 self.priority = 'high'
+
+                
+        if self.status == 'done' and self.completion_date is None:
+            self.completion_date = timezone.now().date()
                 
         super().save(*args, **kwargs)
 
