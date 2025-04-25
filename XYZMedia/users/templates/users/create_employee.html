@@ -1,31 +1,25 @@
 {% extends 'base.html' %}
 
+{% block title %}New Employee{% endblock %}
+
+{% block head %}
+<style>
+
+</style>
+{% endblock %}
+
 {% block mainbody %}
   <div class="container">
-    <h2>Create Employee</h2>
+    <h1>Create Employee</h1>
 
     <form method="post">
       {% csrf_token %}
       
-      <div class="form-group">
-        <label for="id_username">Username:</label>
-        {{ form.username }}
-      </div>
-
-      <div class="form-group">
-        <label for="id_password1">Password:</label>
-        {{ form.password1 }}
-      </div>
-
-      <div class="form-group">
-        <label for="id_password2">Confirm Password:</label>
-        {{ form.password2 }}
-      </div>
-
-      <div class="form-group">
-        <label for="id_role">Role:</label>
-        {{ form.role }}
-      </div>
+      {% for field in form %}
+      <label>{{field.label}}</label>
+      {{field}}
+      <br>
+      {% endfor %}
 
       <button type="submit" class="btn btn-primary">Create Employee</button>
     </form>

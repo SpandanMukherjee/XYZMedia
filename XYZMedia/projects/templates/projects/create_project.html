@@ -9,6 +9,10 @@
         flex-direction: column;
     }
 
+    h1 {
+        margin-bottom: 20px;
+    }
+
     h1, label {
         color: antiquewhite;
     }
@@ -19,36 +23,32 @@
     }
 
     input[type="text"], input[type="date"], select {
-            font-size: 18px;
-            padding: 10px;
-            border: 2px solid rgb(243, 199, 112);
-            outline: none;
-            width: 576px;
-            background-color: rgb(32, 31, 37);
-            color: #FFF5C9;
+        font-size: 18px;
+        padding: 10px;
+        border: 2px solid rgb(243, 199, 112);
+        outline: none;
+        width: 576px;
+        background-color: rgb(32, 31, 37);
+        color: #FFF5C9;
     }
 
-    select {
-        width: 600px;
+    .create-btn {
+        font-size: 18px;
+        padding: 15px;
+        width: 576px;
+        cursor: pointer;
+        border: none;
+        background-color: rgb(243, 199, 112);
+        transition: background 0.3s, transform 0.1s;
     }
 
-    .login-btn {
-            font-size: 18px;
-            padding: 15px;
-            width: 600px;
-            cursor: pointer;
-            border: none;
-            background-color: rgb(243, 199, 112);
-            transition: background 0.3s, transform 0.1s;
-        }
+    .create-btn:hover {
+        background-color: rgb(169, 115, 68);
+    }
 
-        .login-btn:hover {
-            background-color: rgb(169, 115, 68);
-        }
-
-        .login-btn:active {
-            transform: scale(0.98);
-        }
+    .create-btn:active {
+        transform: scale(0.98);
+    }
 </style>
 {% endblock %}
 
@@ -74,6 +74,6 @@
     {{field}}
     <br>
     {% endfor %}
-    <button type="submit" class="login-btn">Create Project</button>
+    <button type="submit" class="create-btn">Create Project</button>
 </form>
 {% endblock %}
