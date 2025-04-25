@@ -1,50 +1,46 @@
-
-
+{% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-    <h2>Freelancer Dashboard</h2>
+  <h2>Freelancer Dashboard</h2>
 
-    {% if task %}
-        <!-- If freelancer has a task -->
-        <h4>Your Assigned Task</h4>
-        <div class="card">
-            <h5>{{ task.title }}</h5>
-            <p><strong>Topic:</strong> {{ task.topic }}</p>
-            <p><strong>Due Date:</strong> {{ task.due_date }}</p>
-            
-            <!-- Form to submit work -->
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ task_forms.0.1.as_p }} <!-- Render form -->
-                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+  {% if task %}
+    <!-- Assigned Task + Upload Form -->
+    <h4>Your Assigned Task</h4>
+    <div class="card p-3 mb-4">
+      <h5>{{ task.title }}</h5>
+      <p><strong>Topic:</strong> {{ task.topic }}</p>
+      <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ task_forms.0.1.as_p }}
+        <input type="hidden" name="task_id" value="{{ task.id }}">
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+      </form>
+    </div>
+
+  {% else %}
+    <!-- No Assigned Task -->
+    <h4>No tasks assigned right now. You’re free!</h4>
+
+    {% if available_tasks %}
+      <h5>Available Tasks to Claim</h5>
+      <div class="list-group">
+        {% for t in available_tasks %}
+          <div class="list-group-item mb-2">
+            <h5>{{ t.title }}</h5>
+            <p><strong>Topic:</strong> {{ t.topic }}</p>
+            <p><strong>Due Date:</strong> {{ t.due_date }}</p>
+            <p><strong>Priority:</strong> {{ t.priority }}</p>
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="task_id" value="{{ t.id }}">
+              <button type="submit" class="btn btn-outline-primary">Claim Task</button>
             </form>
-        </div>
-
+          </div>
+        {% endfor %}
+      </div>
     {% else %}
-        <!-- If freelancer doesn't have any assigned tasks -->
-        <h4>No tasks assigned right now. You’re free!</h4>
-
-        {% if available_tasks %}
-            <h5>Available Tasks to Claim</h5>
-            <div class="list-group">
-                {% for task in available_tasks %}
-                    <div class="list-group-item">
-                        <h5>{{ task.title }}</h5>
-                        <p><strong>Topic:</strong> {{ task.topic }}</p>
-                        <p><strong>Due Date:</strong> {{ task.due_date }}</p>
-                        <p><strong>Priority:</strong> {{ task.priority }}</p>
-                        
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="task_id" value="{{ task.id }}">
-                            <button type="submit" class="btn btn-primary mt-2">Claim Task</button>
-                        </form>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>No tasks available right now. Please check back later!</p>
-        {% endif %}
+      <p>No low-priority tasks available right now. Please check again later!</p>
     {% endif %}
+  {% endif %}
 </div>
-{% endblock %}
