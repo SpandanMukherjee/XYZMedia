@@ -2,9 +2,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from django.db import models
-from .models import Project
-from .forms import ScriptUploadForm, VideoUploadForm, ThumbnailUploadForm, ProjectForm
+from .forms import ProjectForm
 
 @login_required
 def create_project(request):
