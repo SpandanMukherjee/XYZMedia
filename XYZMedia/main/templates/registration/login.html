@@ -142,7 +142,8 @@
             <button class="login-btn" type="submit">Login</button>
         </form>
 
-        <p class="signup">A freelancer? You might want to <a href="/users/register">Register</a></p>
+        <p class="signup">A freelancer? You might want to <a href="{% url 'users:register' %}">Register</a></p>
+        <p class="signup">Visit the video <a href="{% url 'main:archives' %}">Archive</a></p>
     </div>
 </body>
 </html>

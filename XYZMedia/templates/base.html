@@ -143,8 +143,10 @@
     </div>
     <div class="sidebottom">
       <ul>
+        <li><a href="{% url 'users:change_password' %}">Change Password</a></li>
         <li><a href="{% url 'main:logout' %}">Logout</a></li>
       </ul>
+      <br>
       <h2>Logged in as <span class="down-username">{{ user.username }}</span></h2>
     </div>
   </div>
