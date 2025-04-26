@@ -38,14 +38,25 @@
     }
 
     .logo {
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: #f3c770;
       margin-bottom: 20px;
-      display: flex;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .logo img {
+      display: block;
+      width: 70px;
+      height: 70px;
     }
 
     .logo h1 {
       font-size: 18px;
+      margin: 0;
+      line-height: 1;
     }
 
     .sidebar ul {
@@ -100,6 +111,11 @@
       margin-bottom: 20px;
     }
 
+    .down-username {
+      color: rgb(255, 210, 152);
+      text-decoration: underline;
+    }
+
     p {
       font-size: 1.1em;
       line-height: 1.6;
@@ -129,7 +145,7 @@
       <ul>
         <li><a href="{% url 'main:logout' %}">Logout</a></li>
       </ul>
-      <h2>Logged in as {{ user.username }}</h2>
+      <h2>Logged in as <span class="down-username">{{ user.username }}</span></h2>
     </div>
   </div>
 

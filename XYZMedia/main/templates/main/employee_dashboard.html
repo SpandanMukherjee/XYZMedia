@@ -66,6 +66,90 @@
     .employee-dashboard .btn:active {
         transform: scale(0.98);
     }
+
+    .upload-box {
+        background-color: #1f1f1f;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .upload-box p {
+        margin-bottom: 15px;
+        color: antiquewhite;
+        font-size: 15px;
+    }
+
+    .upload-box input[type="file"] {
+        background-color: #2d2d2d;
+        color: antiquewhite;
+        padding: 8px;
+        border: 1px solid #f3c770;
+        border-radius: 6px;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .upload-box input[type="file"]::file-selector-button {
+        background-color: #f3c770;
+        color: black;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .upload-box input[type="file"]::file-selector-button:hover {
+        background-color: #d1a94e;
+    }
+
+    .upload-box textarea {
+        background-color: #2d2d2d;
+        color: antiquewhite;
+        border: 1px solid #f3c770;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .upload-box textarea:focus {
+        border-color: #d1a94e;
+        box-shadow: 0 0 5px rgba(243, 199, 112, 0.7);
+        outline: none;
+    }
+
+    select {
+        background-color: #2d2d2d;
+        color: antiquewhite;
+        border: 1px solid #f3c770;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='14' height='10' viewBox='0 0 14 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 9L13 1' stroke='%23f3c770' stroke-width='2'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 14px 10px;
+        cursor: pointer;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    select:focus {
+        border-color: #d1a94e;
+        box-shadow: 0 0 5px rgba(243, 199, 112, 0.7);
+        outline: none;
+    }
+
+
 </style>
 {% endblock %}
 
@@ -87,7 +171,7 @@
                     <a href="{{ task.video.url }}" target="_blank" class="video">View Video</a>
                 {% endif %}
 
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" class="upload-box">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="hidden" name="task_id" value="{{ task.id }}">
