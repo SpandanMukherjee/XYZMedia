@@ -5,6 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon" />
   <title>{% block title %}Base{% endblock %}</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Solway&display=swap" rel="stylesheet" />
@@ -40,6 +41,11 @@
       text-align: center;
       color: #f3c770;
       margin-bottom: 20px;
+      display: flex;
+    }
+
+    .logo h1 {
+      font-size: 18px;
     }
 
     .sidebar ul {
@@ -107,7 +113,8 @@
   <div class="sidebar">
     <div class="sidetop">
       <div class="logo">
-        <h1>LogoHere</h1>
+        <img src="{% static 'logo.png' %}" alt="Logo" style="width: 70px; height: 70px;" />
+        <h1>XYZ Media</h1>
       </div>
       <ul>
         <li><a href="/">Dashboard</a></li>
