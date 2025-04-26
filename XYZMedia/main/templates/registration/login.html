@@ -1,12 +1,18 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Login</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Solway&display=swap" rel="stylesheet" />
+    <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon" />
+
     <style>
         * {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: "Solway", serif;
             box-sizing: border-box;
         }
 
@@ -88,6 +94,7 @@
             margin-top: 20px;
             text-align: center;
             color: #FFF5C9;
+            font-size: 15px;
         }
 
         .signup a {

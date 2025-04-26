@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Project Archive</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Solway&display=swap" rel="stylesheet" />
+    <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon" />
 
     <style>
         .video {
@@ -14,6 +18,8 @@
             position: relative;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease-in-out;
+            background-color: #1a1a2e;
+            border-radius: 10px;
         }
 
         .video:hover {
@@ -36,6 +42,7 @@
         }
 
         .video-title {
+            margin-left: 10px;
             text-align: left;
             margin-top: 10px;
             color: antiquewhite;
@@ -45,10 +52,16 @@
             text-align: right;
             font-size: 14px;
             color: rgb(197, 191, 184);
+            margin-right: 10px;
         }
 
-        .top {
+        h1.top {
+            color: #f3c770;
+        }
+
+        p.top {
             color: antiquewhite;
+            font-size: 15px;
         }
 
         body {
