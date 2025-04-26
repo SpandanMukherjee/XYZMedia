@@ -70,7 +70,11 @@ class Project(models.Model):
                 
         if self.status == 'done' and self.completion_date is None:
             self.completion_date = timezone.now().date()
-                
+
+        if self.pk is not None and self.due_date < date.today() and self.status != 'done':
+            self.delete()
+            return
+
         super().save(*args, **kwargs)
 
     def __str__(self):
